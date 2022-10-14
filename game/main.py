@@ -1,5 +1,6 @@
 import pygame, sys
-from button import Button
+from models.button import Button
+from models.kid import Kid
 
 pygame.init()
 
@@ -7,16 +8,20 @@ SCREEN = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Menu")
 
 BG = pygame.image.load("assets/Background.png")
+BGP = pygame.image.load("assets/play-background.jpg")
 
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
 
 def play():
+    position = [640,260]
+    KID = Kid(position)
+
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
+        SCREEN.blit(BGP, (0, 0))
 
-        SCREEN.fill("black")
-
+        '''
         PLAY_TEXT = get_font(45).render("This is the PLAY screen.", True, "White")
         PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 260))
         SCREEN.blit(PLAY_TEXT, PLAY_RECT)
@@ -26,15 +31,27 @@ def play():
 
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(SCREEN)
-
+        '''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    main_menu()
 
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_LEFT]:
+            KID.setSpriteDirection("LEFT")
+            position[0] -= 0.2
+        if keys_pressed[pygame.K_RIGHT]:
+            KID.setSpriteDirection("RIGHT")
+            position[0] += 0.2
+        if keys_pressed[pygame.K_UP]:
+            KID.setSpriteDirection("UP")
+            position[1] -= 0.2
+        if keys_pressed[pygame.K_DOWN]:
+            KID.setSpriteDirection("DOWN")
+            position[1] += 0.2
+        
+        KID.update(SCREEN, position)
         pygame.display.update()
     
 def options():
@@ -44,8 +61,11 @@ def options():
         SCREEN.fill("white")
 
         OPTIONS_TEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
+        OPTIONS_TEXT1 = get_font(45).render("This is the OPTIONSssssss screen.", True, "Black")
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
+        OPTIONS_RECT1 = OPTIONS_TEXT1.get_rect(center=(640, 360))
         SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+        SCREEN.blit(OPTIONS_TEXT1, OPTIONS_RECT1)
 
         OPTIONS_BACK = Button(image=None, pos=(640, 460), 
                             text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
