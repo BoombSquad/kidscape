@@ -38,19 +38,20 @@ def play():
                 sys.exit()
 
         keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_LEFT]:
+        if keys_pressed[pygame.K_LEFT] and position[0] >= 0:
             KID.setSpriteDirection("LEFT")
             position[0] -= 0.2
-        if keys_pressed[pygame.K_RIGHT]:
+        elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1280:
             KID.setSpriteDirection("RIGHT")
             position[0] += 0.2
-        if keys_pressed[pygame.K_UP]:
+        elif keys_pressed[pygame.K_UP] and position[1] >= 0:
             KID.setSpriteDirection("UP")
             position[1] -= 0.2
-        if keys_pressed[pygame.K_DOWN]:
+        elif keys_pressed[pygame.K_DOWN] and position[1] <= 720:
             KID.setSpriteDirection("DOWN")
             position[1] += 0.2
         
+
         KID.update(SCREEN, position)
         pygame.display.update()
     
