@@ -71,12 +71,12 @@ def play():
 
         bed.update(SCREEN)
         #See Hitbox
-        #pygame.draw.rect(SCREEN,(255,255,255),bed.rect, 1)
+        #pygame.draw.rect(SCREEN,(255,255,255),bed.hitbox, 1)
         
         KID.update(SCREEN, position)
         
         #See Hitbox
-        #pygame.draw.rect(SCREEN,(255,255,255),KID.rect, 1)
+        pygame.draw.rect(SCREEN,(255,255,255),KID.hitbox, 1)
         pygame.display.update()
     
 def options():

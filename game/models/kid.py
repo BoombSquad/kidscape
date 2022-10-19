@@ -56,7 +56,8 @@ class Kid():
         self.walkDownSprites.append(pygame.image.load("assets/kid-sprite-front-9.png"))
         self.walkDownState = 0
         
-        self.rect = self.sprite.get_rect(center = (self.position_X, self.position_Y))
+        self.hitbox = pygame.Rect(self.position_X, self.position_Y, 30, 30)
+
     
 
     def isAlive(self):
@@ -68,13 +69,14 @@ class Kid():
     def update(self, screen, position):
         self.position_X = position[0]
         self.position_Y = position[1]
-        self.rect = self.sprite.get_rect(center = (self.position_X, self.position_Y))
-        screen.blit(self.sprite, self.rect)
+        self.hitbox = pygame.Rect(self.position_X, self.position_Y, 30, 30)
+        coordinates = (self.hitbox.topleft[0], self.hitbox.topleft[1] - 24)
+        screen.blit(self.sprite, coordinates)
 
 
     def checkCollision(self, obstacles):
         for obstacle in obstacles:
-            if self.rect.colliderect(obstacle.rect):
+            if self.hitbox.colliderect(obstacle.hitbox):
                 return True
             else:
                 return False
