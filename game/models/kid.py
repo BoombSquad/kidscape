@@ -75,11 +75,11 @@ class Kid():
 
 
     def checkCollision(self, obstacles):
+        collision = False
         for obstacle in obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
-                return True
-            else:
-                return False
+                collision = True
+        return collision
 
 
     def setSpriteDirection(self, direction):

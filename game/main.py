@@ -19,6 +19,7 @@ def play():
     previousPosition = [640,260]
     KID = Kid(position)
     bed = Obstacle((370,320),"assets/bed.png")
+    bed2 = Obstacle((470,620),"assets/bed.png")
     
     while True:
         speed = 0.2
@@ -41,16 +42,16 @@ def play():
                 pygame.quit()
                 sys.exit()
 
-        test = [bed]
+        test = [bed, bed2]
         
         if not KID.checkCollision(test):
             keys_pressed = pygame.key.get_pressed()
-            if keys_pressed[pygame.K_LEFT] and position[0] >= 32:
+            if keys_pressed[pygame.K_LEFT] and position[0] >= 18:
                 KID.setSpriteDirection("LEFT")
                 previousPosition[0] = position[0]
                 position[0] -= speed
 
-            elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1248:
+            elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1236:
                 KID.setSpriteDirection("RIGHT")
                 previousPosition[0] = position[0]
                 position[0] += speed
@@ -60,7 +61,7 @@ def play():
                 previousPosition[1] = position[1]
                 position[1] -= speed
 
-            elif keys_pressed[pygame.K_DOWN] and position[1] <= 680:
+            elif keys_pressed[pygame.K_DOWN] and position[1] <= 672:
                 KID.setSpriteDirection("DOWN")
                 previousPosition[1] = position[1]
                 position[1] += speed
@@ -70,6 +71,7 @@ def play():
             position[1] = previousPosition[1]
 
         bed.update(SCREEN)
+        bed2.update(SCREEN)
         #See Hitbox
         #pygame.draw.rect(SCREEN,(255,255,255),bed.hitbox, 1)
         
