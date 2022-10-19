@@ -7,5 +7,5 @@ class Obstacle():
         self.sprite = pygame.image.load(spritePath)
         self.rect = self.sprite.get_rect(center = (self.position_X, self.position_Y))
 
-    def blit(self, screen):
+    def update(self, screen):
         screen.blit(self.sprite, self.rect)

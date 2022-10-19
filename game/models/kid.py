@@ -70,8 +70,16 @@ class Kid():
         self.position_Y = position[1]
         self.rect = self.sprite.get_rect(center = (self.position_X, self.position_Y))
         screen.blit(self.sprite, self.rect)
-    
-    
+
+
+    def checkCollision(self, obstacles):
+        for obstacle in obstacles:
+            if self.rect.colliderect(obstacle.rect):
+                return True
+            else:
+                return False
+
+
     def setSpriteDirection(self, direction):
         if direction == "UP":
             if self.walkUpState >= len(self.walkUpSprites):

@@ -16,10 +16,12 @@ def get_font(size): # Returns Press-Start-2P in the desired size
 
 def play():
     position = [640,260]
+    previousPosition = [640,260]
     KID = Kid(position)
-    bed = Obstacle(position,"assets/bed.png")
+    bed = Obstacle((370,320),"assets/bed.png")
     
     while True:
+        speed = 0.2
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
         SCREEN.blit(BGP, (0, 0))
 
@@ -39,23 +41,42 @@ def play():
                 pygame.quit()
                 sys.exit()
 
-        keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_LEFT] and position[0] >= 32:
-            KID.setSpriteDirection("LEFT")
-            position[0] -= 0.2
-        elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1248:
-            KID.setSpriteDirection("RIGHT")
-            position[0] += 0.2
-        elif keys_pressed[pygame.K_UP] and position[1] >= 70:
-            KID.setSpriteDirection("UP")
-            position[1] -= 0.2
-        elif keys_pressed[pygame.K_DOWN] and position[1] <= 680:
-            KID.setSpriteDirection("DOWN")
-            position[1] += 0.2
+        test = [bed]
         
+        if not KID.checkCollision(test):
+            keys_pressed = pygame.key.get_pressed()
+            if keys_pressed[pygame.K_LEFT] and position[0] >= 32:
+                KID.setSpriteDirection("LEFT")
+                previousPosition[0] = position[0]
+                position[0] -= speed
 
+            elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1248:
+                KID.setSpriteDirection("RIGHT")
+                previousPosition[0] = position[0]
+                position[0] += speed
+
+            elif keys_pressed[pygame.K_UP] and position[1] >= 70:
+                KID.setSpriteDirection("UP")
+                previousPosition[1] = position[1]
+                position[1] -= speed
+
+            elif keys_pressed[pygame.K_DOWN] and position[1] <= 680:
+                KID.setSpriteDirection("DOWN")
+                previousPosition[1] = position[1]
+                position[1] += speed
+
+        if KID.checkCollision(test):
+            position[0] = previousPosition[0]
+            position[1] = previousPosition[1]
+
+        bed.update(SCREEN)
+        #See Hitbox
+        #pygame.draw.rect(SCREEN,(255,255,255),bed.rect, 1)
+        
         KID.update(SCREEN, position)
-        bed.blit(SCREEN)
+        
+        #See Hitbox
+        #pygame.draw.rect(SCREEN,(255,255,255),KID.rect, 1)
         pygame.display.update()
     
 def options():
