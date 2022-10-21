@@ -1,84 +1,68 @@
+from operator import le
 import pygame, sys
 from models.button import Button
 from models.kid import Kid
-from models.obstacle import Obstacle
+from models.level import Level
 
 pygame.init()
 
 SCREEN = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Menu")
 
-BG = pygame.image.load("assets/Background.png")
-BGP = pygame.image.load("assets/play-background.jpg")
+BG = pygame.image.load("assets/images/backgrounds/Background.png")
 
 def get_font(size): # Returns Press-Start-2P in the desired size
-    return pygame.font.Font("assets/font.ttf", size)
+    return pygame.font.Font("assets/fonts/font.ttf", size)
 
 def play():
-    position = [640,260]
-    previousPosition = [640,260]
-    KID = Kid(position)
-    bed = Obstacle((370,320),"assets/bed.png")
-    bed2 = Obstacle((470,620),"assets/bed.png")
-    
+    position = [80,130]
+    previousPosition = [80,130]
+    kid = Kid(position)
+
+    level = Level(1)
+    level.createObstacles()
+
     while True:
-        speed = 0.2
-        PLAY_MOUSE_POS = pygame.mouse.get_pos()
-        SCREEN.blit(BGP, (0, 0))
 
-        '''
-        PLAY_TEXT = get_font(45).render("This is the PLAY screen.", True, "White")
-        PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 260))
-        SCREEN.blit(PLAY_TEXT, PLAY_RECT)
-
-        PLAY_BACK = Button(image=None, pos=(640, 460), 
-                            text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
-
-        PLAY_BACK.changeColor(PLAY_MOUSE_POS)
-        PLAY_BACK.update(SCREEN)
-        '''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-        test = [bed, bed2]
         
-        if not KID.checkCollision(test):
+        if not kid.checkCollision(level.obstacles):
             keys_pressed = pygame.key.get_pressed()
             if keys_pressed[pygame.K_LEFT] and position[0] >= 18:
-                KID.setSpriteDirection("LEFT")
+                kid.setSpriteDirection("LEFT")
                 previousPosition[0] = position[0]
-                position[0] -= speed
+                position[0] -= level.speed
 
             elif keys_pressed[pygame.K_RIGHT] and position[0] <= 1236:
-                KID.setSpriteDirection("RIGHT")
+                kid.setSpriteDirection("RIGHT")
                 previousPosition[0] = position[0]
-                position[0] += speed
+                position[0] += level.speed
 
             elif keys_pressed[pygame.K_UP] and position[1] >= 70:
-                KID.setSpriteDirection("UP")
+                kid.setSpriteDirection("UP")
                 previousPosition[1] = position[1]
-                position[1] -= speed
+                position[1] -= level.speed
 
-            elif keys_pressed[pygame.K_DOWN] and position[1] <= 672:
-                KID.setSpriteDirection("DOWN")
+            elif keys_pressed[pygame.K_DOWN] and position[1] <= 650:
+                kid.setSpriteDirection("DOWN")
                 previousPosition[1] = position[1]
-                position[1] += speed
+                position[1] += level.speed
 
-        if KID.checkCollision(test):
+        if kid.checkCollision(level.obstacles):
             position[0] = previousPosition[0]
             position[1] = previousPosition[1]
 
-        bed.update(SCREEN)
-        bed2.update(SCREEN)
         #See Hitbox
         #pygame.draw.rect(SCREEN,(255,255,255),bed.hitbox, 1)
         
-        KID.update(SCREEN, position)
+        level.update(SCREEN)
+        kid.update(SCREEN, position)
         
         #See Hitbox
-        pygame.draw.rect(SCREEN,(255,255,255),KID.hitbox, 1)
+        #pygame.draw.rect(SCREEN,(255,255,255),KID.hitbox, 1)
         pygame.display.update()
     
 def options():
