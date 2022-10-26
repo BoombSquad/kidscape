@@ -1,5 +1,6 @@
 
 import pygame, sys
+from models.game import Game
 from models.button import Button
 
 menu_surface = pygame.display.set_mode((1280, 720))
@@ -8,12 +9,15 @@ BG = pygame.image.load("assets/images/backgrounds/Background.png")
 class Menu():
 
     def __init__(self):
-        pass
+
+        pygame.init()
+        self.game = Game(self)
 
     def get_font(self, size): # Returns Press-Start-2P in the desired size
         return pygame.font.Font("assets/fonts/font.ttf", size)
 
     def main_menu(self):
+        pygame.display.set_caption("Menu")
         while True:
             menu_surface.blit(BG, (0, 0))
 
@@ -52,19 +56,34 @@ class Menu():
 
     def options(self):
 
+        pygame.display.set_caption("Instrucoes")
         while True:
             OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
             menu_surface.fill("white")
 
-            OPTIONS_TEXT = self.get_font(45).render("This is the OPTIONS screen.", True, "Black")
-            OPTIONS_TEXT1 = self.get_font(45).render("This is the OPTIONSssssss screen.", True, "Black")
-            OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
-            OPTIONS_RECT1 = OPTIONS_TEXT1.get_rect(center=(640, 360))
-            menu_surface.blit(OPTIONS_TEXT, OPTIONS_RECT)
-            menu_surface.blit(OPTIONS_TEXT1, OPTIONS_RECT1)
+            HEADER = self.get_font(45).render("Instrucoes", True, "Black")
+            OPTIONS = self.get_font(35).render("Use as setas para se movimentar", True, "Black")
+            UP = self.get_font(35).render(" \u2191 para andar para cima", True, "Black")
+            RIGHT = self.get_font(35).render(" \u2192 para andar para direita", True, "Black")
+            DOWN = self.get_font(35).render(" \u2193 para andar para baixo", True, "Black")
+            LEFT = self.get_font(35).render(" \u2190 para andar para esquerda", True, "Black")
 
-            OPTIONS_BACK = Button(image=None, pos=(640, 460), 
+            HEADER_RECT = HEADER.get_rect(center=(640, 60))
+            OPTIONS_RECT = OPTIONS.get_rect(center=(640, 120))
+            UP_RECT = UP.get_rect(center=(640, 260))
+            RIGHT_RECT = RIGHT.get_rect(center=(640, 360))
+            DOWN_RECT = DOWN.get_rect(center=(640, 460))
+            LEFT_RECT = LEFT.get_rect(center=(640, 560))
+
+            menu_surface.blit(HEADER, HEADER_RECT)
+            menu_surface.blit(OPTIONS, OPTIONS_RECT)
+            menu_surface.blit(UP, UP_RECT)
+            menu_surface.blit(RIGHT, RIGHT_RECT)
+            menu_surface.blit(DOWN, DOWN_RECT)
+            menu_surface.blit(LEFT, LEFT_RECT)
+
+            OPTIONS_BACK = Button(image=None, pos=(640, 660), 
                                 text_input="BACK", font=self.get_font(75), base_color="Black", hovering_color="Green")
 
             OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
@@ -80,5 +99,6 @@ class Menu():
 
             pygame.display.update()
 
-    def play():
-        pass
+    def play(self):
+        pygame.display.set_caption("Jogo")
+        self.game.main()

@@ -8,9 +8,6 @@ class Level():
         self.speed = 0.4
         self.obstacles = []
 
-    def update(self, screen):
-        screen.blit(self.background, (0,0))
-
     def createObstacles(self):
         bedSprite = pygame.image.load("assets/images/obstacles/bed.png")
         plantSprite = pygame.image.load("assets/images/obstacles/plant.png")
