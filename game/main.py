@@ -1,5 +1,6 @@
 from operator import le
 import pygame, sys
+from models.menu import Menu
 from models.button import Button
 from models.kid import Kid
 from models.level import Level
@@ -8,6 +9,8 @@ pygame.init()
 
 SCREEN = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Menu")
+
+menu = Menu()
 
 BG = pygame.image.load("assets/images/backgrounds/Background.png")
 
@@ -124,11 +127,65 @@ def main_menu():
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     play()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    options()
+                    menu.options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
 
         pygame.display.update()
 
-main_menu()
+menu.main_menu()
+
+class Main():
+    def __init__(self):
+        self.position = [80,130]
+        self.previousPosition = [80,130]
+        self.kid = Kid(self.position)
+
+        self.level = Level(1)
+        self.level.createObstacles()
+        pass
+
+    def main(self):
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            
+            if not self.kid.checkCollision(self.level.obstacles):
+                keys_pressed = pygame.key.get_pressed()
+                if keys_pressed[pygame.K_LEFT] and self.position[0] >= 18:
+                    self.kid.setSpriteDirection("LEFT")
+                    self.previousPosition[0] = self.position[0]
+                    self.position[0] -= self.level.speed
+
+                elif keys_pressed[pygame.K_RIGHT] and self.position[0] <= 1236:
+                    self.kid.setSpriteDirection("RIGHT")
+                    self.previousPosition[0] = self.position[0]
+                    self.position[0] += self.level.speed
+
+                elif keys_pressed[pygame.K_UP] and self.position[1] >= 70:
+                    self.kid.setSpriteDirection("UP")
+                    self.previousPosition[1] = self.position[1]
+                    self.position[1] -= self.level.speed
+
+                elif keys_pressed[pygame.K_DOWN] and self.position[1] <= 650:
+                    self.kid.setSpriteDirection("DOWN")
+                    self.previousPosition[1] = self.position[1]
+                    self.position[1] += self.level.speed
+
+            if self.kid.checkCollision(self.level.obstacles):
+                self.position[0] = self.previousPosition[0]
+                self.position[1] = self.previousPosition[1]
+
+            #See Hitbox
+            #pygame.draw.rect(SCREEN,(255,255,255),bed.hitbox, 1)
+            
+            self.level.update(SCREEN)
+            self.kid.update(SCREEN, self.position)
+            
+            #See Hitbox
+            #pygame.draw.rect(SCREEN,(255,255,255),KID.hitbox, 1)
+            pygame.display.update()
