@@ -55,6 +55,8 @@ class Kid():
         self.walkDownSprites.append(pygame.image.load("assets/images/kid/kid-sprite-front-9.png"))
         self.walkDownState = 0
         
+        self.stateSpeed = 0.015
+
         self.hitbox = pygame.Rect(self.position_X, self.position_Y, 30, 30)
 
     
@@ -86,19 +88,19 @@ class Kid():
             if self.walkUpState >= len(self.walkUpSprites):
                 self.walkUpState = 0
             self.sprite = self.walkUpSprites[int(self.walkUpState)]
-            self.walkUpState += 0.015
+            self.walkUpState += self.stateSpeed
         if direction == "DOWN":
             if self.walkDownState >= len(self.walkDownSprites):
                 self.walkDownState = 0
             self.sprite = self.walkDownSprites[int(self.walkDownState)]
-            self.walkDownState += 0.015
+            self.walkDownState += self.stateSpeed
         if direction == "RIGHT":
             if self.walkRightState >= len(self.walkRightSprites):
                 self.walkRightState = 0
             self.sprite = self.walkRightSprites[int(self.walkRightState)]
-            self.walkRightState += 0.015
+            self.walkRightState += self.stateSpeed
         if direction == "LEFT":
             if self.walkLeftState >= len(self.walkLeftSprites):
                 self.walkLeftState = 0
             self.sprite = self.walkLeftSprites[int(self.walkLeftState)]
-            self.walkLeftState += 0.015
+            self.walkLeftState += self.stateSpeed

@@ -13,7 +13,7 @@ class Game():
         self.kid = Kid(self.position)
 
         self.level = Level(1)
-        self.level.createObstacles()
+        self.level.createObstacles(SCREEN)
 
     def main(self):
         while True:
@@ -24,7 +24,7 @@ class Game():
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.menu.main_menu()
+                        self.menu.pause(SCREEN)
             
             if not self.kid.checkCollision(self.level.obstacles):
                 keys_pressed = pygame.key.get_pressed()

@@ -5,6 +5,7 @@ from models.button import Button
 
 menu_surface = pygame.display.set_mode((1280, 720))
 BG = pygame.image.load("assets/images/backgrounds/Background.png")
+pause_background = pygame.image.load("assets/images/backgrounds/pause.png")
 
 class Menu():
 
@@ -15,6 +16,38 @@ class Menu():
 
     def get_font(self, size): # Returns Press-Start-2P in the desired size
         return pygame.font.Font("assets/fonts/font.ttf", size)
+
+    def pause(self, game_surface):
+        game_surface.blit(pause_background, (0,0))
+        while True:                   
+            
+            PAUSE_MOUSE_POS = pygame.mouse.get_pos()
+
+            PAUSE_TEXT = self.get_font(100).render("PAUSE", True, "#b68f40")
+            PAUSE_RECT = PAUSE_TEXT.get_rect(center=(640, 100))
+
+            RESUME_BUTTON = Button(None, pos=(640, 350), 
+                                text_input="CONTINUAR", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
+            MENU_BUTTON = Button(None, pos=(640, 500), 
+                                text_input="MENU", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
+
+            menu_surface.blit(PAUSE_TEXT, PAUSE_RECT)
+
+            for button in [RESUME_BUTTON, MENU_BUTTON]:
+                button.changeColor(PAUSE_MOUSE_POS)
+                button.update(game_surface)
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if RESUME_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        self.play()
+                    if MENU_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        self.main_menu()
+            
+            pygame.display.update()
 
     def main_menu(self):
         pygame.display.set_caption("Menu")
@@ -58,6 +91,7 @@ class Menu():
 
         pygame.display.set_caption("Instrucoes")
         while True:
+        
             OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
             menu_surface.fill("white")
@@ -95,6 +129,9 @@ class Menu():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+                        self.main_menu()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
                         self.main_menu()
 
             pygame.display.update()

@@ -5,10 +5,10 @@ class Level():
     def __init__(self, level):
         self.level = level
         self.background = None
-        self.speed = 0.4
+        self.speed = 0.2
         self.obstacles = []
 
-    def createObstacles(self):
+    def createObstacles(self, screen):
         bedSprite = pygame.image.load("assets/images/obstacles/bed.png")
         plantSprite = pygame.image.load("assets/images/obstacles/plant.png")
         deskSprite = pygame.image.load("assets/images/obstacles/desk.png")
@@ -25,7 +25,7 @@ class Level():
         tableSprite = pygame.image.load("assets/images/obstacles/table.png")
         
         if self.level == 1:
-            self.background = pygame.image.load("assets/images/backgrounds/level-one-background.jpg")
+            self.background = pygame.image.load("assets/images/backgrounds/level-one-with-obstacles.jpg")
 
 
             bedroomBed = Obstacle((158,121), bedSprite)
@@ -71,8 +71,9 @@ class Level():
             self.obstacles.append(kitchenSink)
             self.obstacles.append(kitchenWines)
             self.obstacles.append(kitchenGlasses)
+            
+            for obstacle in self.obstacles:
+                screen.blit(obstacle.sprite, obstacle.hitbox)
     
     def update(self, screen):
         screen.blit(self.background, (0,0))
-        for obstacle in self.obstacles:
-            screen.blit(obstacle.sprite, obstacle.hitbox)
