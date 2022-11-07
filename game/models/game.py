@@ -1,3 +1,4 @@
+from array import array
 import pygame, sys
 from models.kid import Kid
 from models.level import Level
@@ -25,8 +26,11 @@ class Game():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.menu.pause(SCREEN)
-            
-            if not self.kid.checkCollision(self.level.obstacles):
+
+            if self.level.collectedKeys == len(self.level.keys):
+                self.level.openDoor()
+
+            if not self.kid.checkCollision(self.level):
                 keys_pressed = pygame.key.get_pressed()
                 if keys_pressed[pygame.K_LEFT] and self.position[0] >= 18:
                     self.kid.setSpriteDirection("LEFT")
@@ -48,7 +52,7 @@ class Game():
                     self.previousPosition[1] = self.position[1]
                     self.position[1] += self.level.speed
 
-            if self.kid.checkCollision(self.level.obstacles):
+            if self.kid.checkCollision(self.level):
                 self.position[0] = self.previousPosition[0]
                 self.position[1] = self.previousPosition[1]
 

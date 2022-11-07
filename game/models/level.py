@@ -1,4 +1,5 @@
 import pygame
+from models.key import Key
 from models.obstacle import Obstacle
 
 class Level():
@@ -7,6 +8,9 @@ class Level():
         self.background = None
         self.speed = 0.2
         self.obstacles = []
+        self.keys = []
+        self.collectedKeys = 0
+        self.openedDoor = False
 
     def createObstacles(self, screen):
         bedSprite = pygame.image.load("assets/images/obstacles/bed.png")
@@ -23,6 +27,7 @@ class Level():
         glassesSprite = pygame.image.load("assets/images/obstacles/glasses.png")
         winesSprite = pygame.image.load("assets/images/obstacles/wines.png")
         tableSprite = pygame.image.load("assets/images/obstacles/table.png")
+        doorSprite = pygame.image.load("assets/images/obstacles/door-closed.png")
         
         if self.level == 1:
             self.background = pygame.image.load("assets/images/backgrounds/level-one-with-obstacles.jpg")
@@ -49,7 +54,9 @@ class Level():
             kitchenSink = Obstacle((1017,62), sinkSprite)
             kitchenWines = Obstacle((962,24), winesSprite)
             kitchenGlasses = Obstacle((1165,24), glassesSprite)
+            door = Obstacle((1265,443), doorSprite)
             
+
             self.obstacles.append(bedroomBed)
             self.obstacles.append(bedroomLeftPlant)
             self.obstacles.append(bedroomRightPlant)
@@ -71,9 +78,23 @@ class Level():
             self.obstacles.append(kitchenSink)
             self.obstacles.append(kitchenWines)
             self.obstacles.append(kitchenGlasses)
+            self.obstacles.append(door)
+            
+            key = Key((1221, 229))
+            self.keys.append(key)
+            self.obstacles.append(key)
             
             for obstacle in self.obstacles:
                 screen.blit(obstacle.sprite, obstacle.hitbox)
-    
+
+
     def update(self, screen):
         screen.blit(self.background, (0,0))
+        if self.openedDoor:    
+            screen.blit(pygame.image.load("assets/images/obstacles/door.png"), (1265,443))
+        for key in self.keys:
+            screen.blit(key.sprite, key.hitbox)
+        
+
+    def openDoor(self):
+        self.openedDoor = True

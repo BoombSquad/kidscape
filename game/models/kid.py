@@ -1,5 +1,7 @@
 import pygame
 
+from models.key import Key
+
 class Kid():
     def __init__(self, position):
         self.lives = 3
@@ -74,14 +76,15 @@ class Kid():
         coordinates = (self.hitbox.topleft[0], self.hitbox.topleft[1] - 24)
         screen.blit(self.sprite, coordinates)
 
-
-    def checkCollision(self, obstacles):
-        collision = False
-        for obstacle in obstacles:
+    def checkCollision(self, level):
+        for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
-                collision = True
-        return collision
-
+                if type(obstacle) == Key:
+                    level.collectedKeys += 1
+                    level.obstacles.remove(obstacle)
+                    level.keys.remove(obstacle)
+                return True
+        return False
 
     def setSpriteDirection(self, direction):
         if direction == "UP":
