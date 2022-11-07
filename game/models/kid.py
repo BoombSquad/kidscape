@@ -80,9 +80,8 @@ class Kid():
         for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
                 if type(obstacle) == Key:
-                    level.collectedKeys += 1
                     level.obstacles.remove(obstacle)
-                    level.keys.remove(obstacle)
+                    level.remainingKeys.remove(obstacle)
                 return True
         return False
 

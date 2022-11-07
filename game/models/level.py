@@ -6,10 +6,9 @@ class Level():
     def __init__(self, level):
         self.level = level
         self.background = None
-        self.speed = 0.2
+        self.speed = 0.5
         self.obstacles = []
-        self.keys = []
-        self.collectedKeys = 0
+        self.remainingKeys = []
         self.openedDoor = False
 
     def createObstacles(self, screen):
@@ -81,7 +80,7 @@ class Level():
             self.obstacles.append(door)
             
             key = Key((1221, 229))
-            self.keys.append(key)
+            self.remainingKeys.append(key)
             self.obstacles.append(key)
             
             for obstacle in self.obstacles:
@@ -91,8 +90,9 @@ class Level():
     def update(self, screen):
         screen.blit(self.background, (0,0))
         if self.openedDoor:    
-            screen.blit(pygame.image.load("assets/images/obstacles/door.png"), (1265,443))
-        for key in self.keys:
+            screen.blit(pygame.image.load("assets/images/obstacles/door.png"), (1265,433))
+
+        for key in self.remainingKeys:
             screen.blit(key.sprite, key.hitbox)
         
 

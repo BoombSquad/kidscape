@@ -17,8 +17,11 @@ class Game():
         self.level.createObstacles(SCREEN)
 
     def main(self):
+        
         while True:
-
+            if len(self.level.remainingKeys) == 0:
+                self.level.openDoor()
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -27,8 +30,6 @@ class Game():
                     if event.key == pygame.K_ESCAPE:
                         self.menu.pause(SCREEN)
 
-            if self.level.collectedKeys == len(self.level.keys):
-                self.level.openDoor()
 
             if not self.kid.checkCollision(self.level):
                 keys_pressed = pygame.key.get_pressed()
