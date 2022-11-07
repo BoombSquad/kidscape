@@ -1,7 +1,5 @@
-from array import array
 import pygame, sys
 from models.kid import Kid
-from models.level import Level
 from models.levelOne import LevelOne
 
 SCREEN = pygame.display.set_mode((1280, 720))
