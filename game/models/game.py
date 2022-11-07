@@ -2,18 +2,19 @@ from array import array
 import pygame, sys
 from models.kid import Kid
 from models.level import Level
+from models.levelOne import LevelOne
 
 SCREEN = pygame.display.set_mode((1280, 720))
 
 class Game():
 
-    def __init__(self, menu):
+    def __init__(self, menu, level=LevelOne()):
         self.menu = menu
         self.position = [80,130]
         self.previousPosition = [80,130]
         self.kid = Kid(self.position)
 
-        self.level = Level(1)
+        self.level = level
         self.level.createObstacles(SCREEN)
 
     def main(self):
@@ -21,6 +22,9 @@ class Game():
         while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
+                if self.level.checkDoorCollision(self.position):
+                    nextLevel = self.level.getNextLevel()
+                    Game(self.menu, nextLevel).main()
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

@@ -80,6 +80,7 @@ class Kid():
         for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
                 if type(obstacle) == Key:
+                    level.obstacles.remove(level.door)
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True

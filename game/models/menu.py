@@ -1,7 +1,8 @@
 
 import pygame, sys
-from models.game import Game
 from models.button import Button
+from models.game import Game
+from models.level import Level
 
 menu_surface = pygame.display.set_mode((1280, 720))
 BG = pygame.image.load("assets/images/backgrounds/Background.png")
@@ -12,6 +13,7 @@ class Menu():
     def __init__(self):
 
         pygame.init()
+        # self.game = Game(self)
         self.game = Game(self)
 
     def get_font(self, size): # Returns Press-Start-2P in the desired size
