@@ -2,7 +2,6 @@
 import pygame, sys
 from models.button import Button
 from models.game import Game
-from models.level import Level
 
 menu_surface = pygame.display.set_mode((1280, 720))
 BG = pygame.image.load("assets/images/backgrounds/Background.png")
