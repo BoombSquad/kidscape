@@ -1,17 +1,23 @@
 import pygame, sys
+from models.demon import Demon
+import random
 from models.kid import Kid
 from models.levelOne import LevelOne
+from models.levelTwo import LevelTwo
 
 SCREEN = pygame.display.set_mode((1280, 720))
+directions = ["RIGHT", "LEFT", "UP", "DOWN"]
 
 class Game():
 
-    def __init__(self, menu, level=LevelOne()):
+    def __init__(self, menu, level=LevelTwo()):
         self.menu = menu
-        self.position = [80,130]
+        self.kidPosition = [80,130]
         self.previousPosition = [80,130]
-        self.kid = Kid(self.position)
-
+        self.kid = Kid(self.kidPosition)
+        self.demonPosition = [0,0]
+        self.demonPreviousPos = self.demonPosition
+        self.demonDirection = "left"
         self.level = level
         self.level.createObstacles(SCREEN)
 
@@ -20,7 +26,7 @@ class Game():
         while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
-                if self.level.checkDoorCollision(self.position):
+                if self.level.checkDoorCollision(self.kidPosition):
                     nextLevel = self.level.getNextLevel()
                     Game(self.menu, nextLevel).main()
             
@@ -35,36 +41,85 @@ class Game():
 
             if not self.kid.checkCollision(self.level):
                 keys_pressed = pygame.key.get_pressed()
-                if keys_pressed[pygame.K_LEFT] and self.position[0] >= 18:
+                if keys_pressed[pygame.K_LEFT] and self.kidPosition[0] >= 18:
                     self.kid.setSpriteDirection("LEFT")
-                    self.previousPosition[0] = self.position[0]
-                    self.position[0] -= self.level.speed
+                    self.previousPosition[0] = self.kidPosition[0]
+                    self.kidPosition[0] -= self.level.speed
 
-                elif keys_pressed[pygame.K_RIGHT] and self.position[0] <= 1236:
+                elif keys_pressed[pygame.K_RIGHT] and self.kidPosition[0] <= 1236:
                     self.kid.setSpriteDirection("RIGHT")
-                    self.previousPosition[0] = self.position[0]
-                    self.position[0] += self.level.speed
+                    self.previousPosition[0] = self.kidPosition[0]
+                    self.kidPosition[0] += self.level.speed
 
-                elif keys_pressed[pygame.K_UP] and self.position[1] >= 70:
+                elif keys_pressed[pygame.K_UP] and self.kidPosition[1] >= 70:
                     self.kid.setSpriteDirection("UP")
-                    self.previousPosition[1] = self.position[1]
-                    self.position[1] -= self.level.speed
+                    self.previousPosition[1] = self.kidPosition[1]
+                    self.kidPosition[1] -= self.level.speed
 
-                elif keys_pressed[pygame.K_DOWN] and self.position[1] <= 650:
+                elif keys_pressed[pygame.K_DOWN] and self.kidPosition[1] <= 650:
                     self.kid.setSpriteDirection("DOWN")
-                    self.previousPosition[1] = self.position[1]
-                    self.position[1] += self.level.speed
+                    self.previousPosition[1] = self.kidPosition[1]
+                    self.kidPosition[1] += self.level.speed
 
             if self.kid.checkCollision(self.level):
-                self.position[0] = self.previousPosition[0]
-                self.position[1] = self.previousPosition[1]
-
-            #See Hitbox
-            #pygame.draw.rect(SCREEN,(255,255,255),bed.hitbox, 1)
+                self.kidPosition[0] = self.previousPosition[0]
+                self.kidPosition[1] = self.previousPosition[1]
             
             self.level.update(SCREEN)
-            self.kid.update(SCREEN, self.position)
+            
+            if self.level.fase == 2:
+                if self.level.demon.isChasing(self):
+                    if self.kidPosition[0] > self.demonPosition[0]:
+                        self.demonPosition[0] += self.level.demon.acc
+                    elif self.kidPosition[0] < self.demonPosition[0]:
+                        self.demonPosition[0] -= self.level.demon.acc
+                    elif self.kidPosition[1] > self.demonPosition[1]:
+                        self.demonPosition[1] += self.level.demon.acc
+                    elif self.kidPosition[1] < self.demonPosition[1]:
+                        self.demonPosition[1] -= self.level.demon.acc
+                else:
+                    self.demonPosition[0] = self.level.demon.position_X
+                    self.demonPosition[1] = self.level.demon.position_Y
+                    if not self.level.demon.checkCollision(self.level):
+                        if random.randint(0, 999) % 509 == 0 :
+                            if self.level.demon.direction == "LEFT" and self.level.demon.stepsWalked < 5:
+                                self.level.demon.stepsWalked += 1
+                                if self.demonPosition[0] >= 18:
+                                    self.demonPreviousPos[0] = self.demonPosition[0]
+                                    self.demonPosition[0] -= self.level.demon.acc
+                                
+                            elif self.level.demon.direction == "RIGHT" and self.level.demon.stepsWalked < 5:
+                                self.level.demon.stepsWalked += 1
+                                if self.demonPosition[0] <= 1216:
+                                    self.demonPreviousPos[0] = self.demonPosition[0]
+                                    self.demonPosition[0] += self.level.demon.acc
+
+                            elif self.level.demon.direction == "UP" and self.level.demon.stepsWalked < 5:
+                                self.level.demon.stepsWalked += 1
+                                if self.demonPosition[1] >= 70:
+                                    self.demonPreviousPos[1] = self.demonPosition[1]
+                                    self.demonPosition[1] -= self.level.demon.acc
+
+                            elif self.level.demon.direction == "DOWN" and self.level.demon.stepsWalked < 5:
+                                self.level.demon.stepsWalked += 1
+                                if self.demonPosition[1] <= 650:
+                                    self.demonPreviousPos[1] = self.demonPosition[1]
+                                    self.demonPosition[1] += self.level.demon.acc
+
+                            if self.level.demon.stepsWalked >= 5:
+                                self.level.demon.setSpriteDirection(directions[random.randint(0,3)])
+                                self.level.demon.stepsWalked = 0
+
+                            if self.level.demon.checkCollision(self.level):
+                                self.demonPosition[0] = self.demonPreviousPos[0]
+                                self.demonPosition[1] = self.demonPreviousPos[1]
+
+                self.level.demon.update(SCREEN, self.demonPosition)
+                pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
+                # self.demonDirection = directions[random.randint(0,3)]
+
+            self.kid.update(SCREEN, self.kidPosition)
             
             #See Hitbox
-            #pygame.draw.rect(SCREEN,(255,255,255),KID.hitbox, 1)
+            pygame.draw.rect(SCREEN,(255,255,255),self.kid.hitbox, 1)
             pygame.display.update()

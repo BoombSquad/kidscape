@@ -1,23 +1,27 @@
 import pygame
+from models.demon import Demon
 from models.key import Key
 from models.obstacle import Obstacle
 
 class LevelTwo():
     def __init__(self):
+        self.fase = 2
         self.background = pygame.image.load("assets/images/backgrounds/level-one-background.jpg")
-        self.speed = 0.5
+        self.speed = 0.2
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False
         self.door = None
+        self.demon = Demon((1000, 300))
 
     def createObstacles(self, screen):
 
-        key = Key((1221, 229))
+        self.door = Obstacle((1265,443), pygame.image.load("assets/images/obstacles/door-closed.png"))
+
         key2 = Key((1200, 400))
-        self.remainingKeys.append(key)
         self.remainingKeys.append(key2)
-        self.obstacles.append(key)
+
+        self.obstacles.append(self.door)
         self.obstacles.append(key2)
         
         for obstacle in self.obstacles:

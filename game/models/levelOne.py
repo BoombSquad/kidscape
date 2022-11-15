@@ -5,8 +5,9 @@ from models.obstacle import Obstacle
 
 class LevelOne():
     def __init__(self):
+        self.fase = 1
         self.background = None
-        self.speed = 0.5
+        self.speed = 0.2
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False
