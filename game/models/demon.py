@@ -10,7 +10,7 @@ class Demon():
     self.position_Y = position[1]
     self.sprite = pygame.image.load("assets/images/demon/demon-sprite-front.png")
     self.stateSpeed = 0.015
-    self.acc = 2
+    self.acc = 3
     self.chasing = False
     self.stepsWalked = 0
     self.direction = "LEFT"
@@ -52,6 +52,8 @@ class Demon():
           if self.hitbox.colliderect(obstacle.hitbox):
             if type(obstacle) == Key:
                 return False
+            else:
+              return True
       return False
   
   def isChasing(self, game):

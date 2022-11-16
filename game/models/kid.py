@@ -66,7 +66,6 @@ class Kid():
 
     def isAlive(self):
         if self.lives == 0:
-            pygame.quit()
             return False
         else:
             return True
@@ -82,7 +81,6 @@ class Kid():
         for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
                 if type(obstacle) == Key:
-                    level.obstacles.remove(level.door)
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True

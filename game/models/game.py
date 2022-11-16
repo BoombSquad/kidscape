@@ -12,8 +12,7 @@ class Game():
 
     def __init__(self, menu, level=LevelTwo()):
         self.menu = menu
-        self.startPosition = [80,130]
-        self.kidPosition = level.initialKidPosition
+        self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
         self.kid = Kid(self.kidPosition)
         self.demonPosition = [0,0]
@@ -66,9 +65,8 @@ class Game():
             if self.kid.checkCollision(self.level):
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
-                    self.kidPosition = self.startPosition
-                    print(self.kid.lives)
-                    print(self.startPosition)
+                    self.kidPosition[0] = self.level.levelX
+                    self.kidPosition[1] = self.level.levelY
                 else: 
                     self.kidPosition[0] = self.previousPosition[0]
                     self.kidPosition[1] = self.previousPosition[1]
@@ -80,7 +78,6 @@ class Game():
                 if self.level.demon.isChasing(self):
 
                     self.level.demon.acc = 0.1
-
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
                     if self.kidPosition[0] < self.demonPosition[0]:
@@ -90,47 +87,40 @@ class Game():
                     if self.kidPosition[1] < self.demonPosition[1]:
                         self.demonPosition[1] -= self.level.demon.acc
                 else:
-
+                    self.level.demon.acc = 3
                     self.demonPosition[0] = self.level.demon.position_X
                     self.demonPosition[1] = self.level.demon.position_Y
 
-                    if not self.level.demon.checkCollision(self.level):
-                        if random.randint(0, 999) % 509 == 0 :
-                            if self.level.demon.direction == "LEFT" and self.level.demon.stepsWalked < 5:
-                                self.level.demon.stepsWalked += 1
-                                if self.demonPosition[0] >= 18:
-                                    self.demonPreviousPos[0] = self.demonPosition[0]
-                                    self.demonPosition[0] -= self.level.demon.acc
-                                
-                            elif self.level.demon.direction == "RIGHT" and self.level.demon.stepsWalked < 5:
-                                self.level.demon.stepsWalked += 1
-                                if self.demonPosition[0] <= 1216:
-                                    self.demonPreviousPos[0] = self.demonPosition[0]
-                                    self.demonPosition[0] += self.level.demon.acc
+                    self.demonPreviousPos[0] = self.demonPosition[0]
+                    self.demonPreviousPos[1] = self.demonPosition[1]
+                    randomic = random.randint(0, 999)
+                    if randomic % 99 == 0 :
+                        if self.level.demon.direction == "LEFT" and self.level.demon.stepsWalked < 6:
+                            self.level.demon.stepsWalked += 1
+                            if self.demonPosition[0] >= 18:
+                                self.demonPosition[0] -= self.level.demon.acc
+                            
+                        elif self.level.demon.direction == "RIGHT" and self.level.demon.stepsWalked < 6:
+                            self.level.demon.stepsWalked += 1
+                            if self.demonPosition[0] <= 1236:
+                                self.demonPosition[0] += self.level.demon.acc
 
-                            elif self.level.demon.direction == "UP" and self.level.demon.stepsWalked < 5:
-                                self.level.demon.stepsWalked += 1
-                                if self.demonPosition[1] >= 70:
-                                    self.demonPreviousPos[1] = self.demonPosition[1]
-                                    self.demonPosition[1] -= self.level.demon.acc
+                        elif self.level.demon.direction == "UP" and self.level.demon.stepsWalked < 6:
+                            self.level.demon.stepsWalked += 1
+                            if self.demonPosition[1] >= 70:
+                                self.demonPosition[1] -= self.level.demon.acc
 
-                            elif self.level.demon.direction == "DOWN" and self.level.demon.stepsWalked < 5:
-                                self.level.demon.stepsWalked += 1
-                                if self.demonPosition[1] <= 650:
-                                    self.demonPreviousPos[1] = self.demonPosition[1]
-                                    self.demonPosition[1] += self.level.demon.acc
+                        elif self.level.demon.direction == "DOWN" and self.level.demon.stepsWalked < 6:
+                            self.level.demon.stepsWalked += 1
+                            if self.demonPosition[1] <= 650:
+                                self.demonPosition[1] += self.level.demon.acc
 
-                            if self.level.demon.stepsWalked >= 5:
-                                self.level.demon.setSpriteDirection(directions[random.randint(0,3)])
-                                self.level.demon.stepsWalked = 0
-
-                            if self.level.demon.checkCollision(self.level):
-                                self.demonPosition[0] = self.demonPreviousPos[0]
-                                self.demonPosition[1] = self.demonPreviousPos[1]
+                        if self.level.demon.stepsWalked >= 6:
+                            self.level.demon.setSpriteDirection(directions[random.randint(0,3)])
+                            self.level.demon.stepsWalked = 0
 
                 self.level.demon.update(SCREEN, self.demonPosition)
                 pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
-                # self.demonDirection = directions[random.randint(0,3)]
             
             self.kid.update(SCREEN, self.kidPosition)
             
