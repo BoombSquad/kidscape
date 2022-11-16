@@ -12,18 +12,22 @@ class Game():
 
     def __init__(self, menu, level=LevelTwo()):
         self.menu = menu
-        self.kidPosition = [80,130]
-        self.previousPosition = [80,130]
+        self.kidPosition = level.initialKidPosition
+        self.previousPosition = self.kidPosition
         self.kid = Kid(self.kidPosition)
         self.demonPosition = [0,0]
         self.demonPreviousPos = self.demonPosition
         self.demonDirection = "left"
         self.level = level
         self.level.createObstacles(SCREEN)
+        print(level.initialKidPosition)
 
     def main(self):
         
+        print(self.level.initialKidPosition)
+        # while self.kid.isAlive():
         while True:
+
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
@@ -62,8 +66,13 @@ class Game():
                     self.kidPosition[1] += self.level.speed
 
             if self.kid.checkCollision(self.level):
-                self.kidPosition[0] = self.previousPosition[0]
-                self.kidPosition[1] = self.previousPosition[1]
+                if self.kid.isDemonCollision(self.level):
+                    self.kid.lives -= 1
+                    print(self.level.initialKidPosition)
+                    self.kidPosition = self.level.initialKidPosition
+                else: 
+                    self.kidPosition[0] = self.previousPosition[0]
+                    self.kidPosition[1] = self.previousPosition[1]
             
             self.level.update(SCREEN)
             

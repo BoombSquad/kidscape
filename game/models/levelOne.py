@@ -12,6 +12,7 @@ class LevelOne():
         self.remainingKeys = []
         self.openedDoor = False
         self.door = None
+        self.initialKidPosition = [80,130]
 
     def createObstacles(self, screen):
 

@@ -1,6 +1,7 @@
 import pygame
 
 from models.key import Key
+from models.levelTwo import LevelTwo
 
 class Kid():
     def __init__(self, position):
@@ -84,8 +85,15 @@ class Kid():
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True
+            if self.hitbox.colliderect(level.demon.hitbox):
+                return True
         return False
 
+    def isDemonCollision(self, level):
+        if self.hitbox.colliderect(level.demon.hitbox):
+            return True
+        else:
+            return False
     def setSpriteDirection(self, direction):
         if direction == "UP":
             if self.walkUpState >= len(self.walkUpSprites):
