@@ -10,7 +10,7 @@ directions = ["RIGHT", "LEFT", "UP", "DOWN"]
 
 class Game():
 
-    def __init__(self, menu, level=LevelTwo()):
+    def __init__(self, menu, level=LevelOne()):
         self.menu = menu
         self.kidPosition = level.initialKidPosition
         self.previousPosition = self.kidPosition

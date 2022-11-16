@@ -85,12 +85,12 @@ class Kid():
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True
-            if self.hitbox.colliderect(level.demon.hitbox):
+            if level.fase != 1 and self.hitbox.colliderect(level.demon.hitbox):
                 return True
         return False
 
     def isDemonCollision(self, level):
-        if self.hitbox.colliderect(level.demon.hitbox):
+        if level.fase != 1 and self.hitbox.colliderect(level.demon.hitbox):
             return True
         else:
             return False

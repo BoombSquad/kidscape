@@ -7,7 +7,7 @@ class LevelTwo():
     def __init__(self):
         self.initialKidPosition = [80,400]
         self.fase = 2
-        self.background = pygame.image.load("assets/images/backgrounds/level-one-background.jpg")
+        self.background = pygame.image.load("assets/images/backgrounds/level-two-background.jpg")
         self.speed = 0.2
         self.obstacles = []
         self.remainingKeys = []
