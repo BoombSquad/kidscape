@@ -57,7 +57,7 @@ class Menu():
 
             MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-            MENU_TEXT = self.get_font(100).render("KID SCAPE", True, "#b68f40")
+            MENU_TEXT = self.get_font(100).render("KID ESCAPE", True, "#b68f40")
             MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
             PLAY_BUTTON = Button(None, pos=(640, 250), 
