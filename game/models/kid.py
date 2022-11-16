@@ -66,6 +66,7 @@ class Kid():
 
     def isAlive(self):
         if self.lives == 0:
+            pygame.quit()
             return False
         else:
             return True
