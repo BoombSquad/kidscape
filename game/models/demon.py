@@ -10,7 +10,7 @@ class Demon():
     self.position_Y = position[1]
     self.sprite = pygame.image.load("assets/images/demon/demon-sprite-front.png")
     self.stateSpeed = 0.015
-    self.acc = 0.1
+    self.acc = 2
     self.chasing = False
     self.stepsWalked = 0
     self.direction = "LEFT"

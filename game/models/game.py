@@ -69,13 +69,14 @@ class Game():
             
             if self.level.fase == 2:
                 if self.level.demon.isChasing(self):
+                    self.level.demon.acc = 0.1
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
-                    elif self.kidPosition[0] < self.demonPosition[0]:
+                    if self.kidPosition[0] < self.demonPosition[0]:
                         self.demonPosition[0] -= self.level.demon.acc
-                    elif self.kidPosition[1] > self.demonPosition[1]:
+                    if self.kidPosition[1] > self.demonPosition[1]:
                         self.demonPosition[1] += self.level.demon.acc
-                    elif self.kidPosition[1] < self.demonPosition[1]:
+                    if self.kidPosition[1] < self.demonPosition[1]:
                         self.demonPosition[1] -= self.level.demon.acc
                 else:
                     self.demonPosition[0] = self.level.demon.position_X
