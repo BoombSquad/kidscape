@@ -13,21 +13,18 @@ class Game():
     def __init__(self, menu, level=LevelOne()):
         self.menu = menu
         self.kidPosition = level.initialKidPosition
-        self.previousPosition = self.kidPosition
+        self.previousPosition = [80,130]
         self.kid = Kid(self.kidPosition)
         self.demonPosition = [0,0]
         self.demonPreviousPos = self.demonPosition
         self.demonDirection = "left"
         self.level = level
         self.level.createObstacles(SCREEN)
-        print(level.initialKidPosition)
 
     def main(self):
         
-        print(self.level.initialKidPosition)
-        # while self.kid.isAlive():
-        while True:
-
+        while self.kid.isAlive():
+        # while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
@@ -66,19 +63,23 @@ class Game():
                     self.kidPosition[1] += self.level.speed
 
             if self.kid.checkCollision(self.level):
+                print('bugou')
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
-                    print(self.level.initialKidPosition)
                     self.kidPosition = self.level.initialKidPosition
                 else: 
+                    print("arrumou a posição")
                     self.kidPosition[0] = self.previousPosition[0]
                     self.kidPosition[1] = self.previousPosition[1]
             
             self.level.update(SCREEN)
             
             if self.level.fase == 2:
+
                 if self.level.demon.isChasing(self):
+
                     self.level.demon.acc = 0.1
+
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
                     if self.kidPosition[0] < self.demonPosition[0]:
@@ -88,8 +89,10 @@ class Game():
                     if self.kidPosition[1] < self.demonPosition[1]:
                         self.demonPosition[1] -= self.level.demon.acc
                 else:
+
                     self.demonPosition[0] = self.level.demon.position_X
                     self.demonPosition[1] = self.level.demon.position_Y
+
                     if not self.level.demon.checkCollision(self.level):
                         if random.randint(0, 999) % 509 == 0 :
                             if self.level.demon.direction == "LEFT" and self.level.demon.stepsWalked < 5:
@@ -127,7 +130,7 @@ class Game():
                 self.level.demon.update(SCREEN, self.demonPosition)
                 pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
                 # self.demonDirection = directions[random.randint(0,3)]
-
+            
             self.kid.update(SCREEN, self.kidPosition)
             
             #See Hitbox
