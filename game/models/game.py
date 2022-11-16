@@ -63,12 +63,10 @@ class Game():
                     self.kidPosition[1] += self.level.speed
 
             if self.kid.checkCollision(self.level):
-                print('bugou')
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
                     self.kidPosition = self.level.initialKidPosition
                 else: 
-                    print("arrumou a posição")
                     self.kidPosition[0] = self.previousPosition[0]
                     self.kidPosition[1] = self.previousPosition[1]
             

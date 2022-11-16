@@ -85,15 +85,15 @@ class Kid():
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True
-            # if level.fase != 1 and self.hitbox.colliderect(level.demon.hitbox):
-            #     return True
+            if level.fase != 1 and self.hitbox.colliderect(level.demon.hitbox):
+                return True
         return False
 
     def isDemonCollision(self, level):
         if level.fase == 1:
             return False
-        # elif self.hitbox.colliderect(level.demon.hitbox):
-            # return True
+        elif self.hitbox.colliderect(level.demon.hitbox):
+            return True
     def setSpriteDirection(self, direction):
         if direction == "UP":
             if self.walkUpState >= len(self.walkUpSprites):
