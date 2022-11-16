@@ -65,7 +65,7 @@ class Kid():
     
 
     def isAlive(self):
-        if self.lives <= 0:
+        if self.lives == 0:
             return False
         else:
             return True

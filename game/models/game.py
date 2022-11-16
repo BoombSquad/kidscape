@@ -10,8 +10,9 @@ directions = ["RIGHT", "LEFT", "UP", "DOWN"]
 
 class Game():
 
-    def __init__(self, menu, level=LevelOne()):
+    def __init__(self, menu, level=LevelTwo()):
         self.menu = menu
+        self.startPosition = LevelTwo().initialKidPosition
         self.kidPosition = level.initialKidPosition
         self.previousPosition = [80,130]
         self.kid = Kid(self.kidPosition)
@@ -65,7 +66,7 @@ class Game():
             if self.kid.checkCollision(self.level):
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
-                    self.kidPosition = self.level.initialKidPosition
+                    self.kidPosition = self.startPosition
                 else: 
                     self.kidPosition[0] = self.previousPosition[0]
                     self.kidPosition[1] = self.previousPosition[1]
