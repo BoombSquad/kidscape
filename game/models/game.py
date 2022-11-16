@@ -65,6 +65,7 @@ class Game():
 
             if self.kid.checkCollision(self.level):
                 if self.kid.isDemonCollision(self.level):
+                    print(self.kid.lives)
                     self.kid.lives -= 1
                     self.kidPosition = self.startPosition
                 else: 
