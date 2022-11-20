@@ -62,6 +62,8 @@ class Kid():
 
         self.hitbox = pygame.Rect(self.position_X, self.position_Y, 30, 30)
 
+        self.points = 0
+
     
 
     def isAlive(self):
@@ -81,6 +83,7 @@ class Kid():
         for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
                 if type(obstacle) == Key:
+                    self.points += 50
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
                 return True
@@ -93,6 +96,7 @@ class Kid():
             return False
         elif self.hitbox.colliderect(level.demon.hitbox):
             return True
+            
     def setSpriteDirection(self, direction):
         if direction == "UP":
             if self.walkUpState >= len(self.walkUpSprites):
