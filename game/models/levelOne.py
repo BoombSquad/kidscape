@@ -6,13 +6,14 @@ from models.obstacle import Obstacle
 class LevelOne():
     def __init__(self):
         self.fase = 1
+        self.levelX = 80  
+        self.levelY= 130
         self.background = None
-        self.speed = 0.2
+        self.speed = 1
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False
         self.door = None
-        self.initialKidPosition = [80,130]
 
     def createObstacles(self, screen):
 
