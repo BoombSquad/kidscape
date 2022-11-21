@@ -4,13 +4,15 @@ import random
 from models.kid import Kid
 from models.levelOne import LevelOne
 from models.levelTwo import LevelTwo
+from models.levelThree import LevelThree
 
 SCREEN = pygame.display.set_mode((1280, 720))
 directions = ["RIGHT", "LEFT", "UP", "DOWN"]
+clock = pygame.time.Clock()
 
 class Game():
 
-    def __init__(self, menu, level=LevelTwo()):
+    def __init__(self, menu, level=LevelThree()):
         self.menu = menu
         self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
@@ -20,15 +22,18 @@ class Game():
         self.demonDirection = "left"
         self.level = level
         self.level.createObstacles(SCREEN)
+        self.time = 0
 
     def main(self):
-        
         while self.kid.isAlive():
         # while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
                     nextLevel = self.level.getNextLevel()
+                    if nextLevel == 0:
+                        self.menu.victory(SCREEN, self.kid.points)
+                    self.kid.points += 20
                     Game(self.menu, nextLevel).main()
             
             for event in pygame.event.get():
@@ -65,6 +70,7 @@ class Game():
             if self.kid.checkCollision(self.level):
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
+                    self.kid.points -= 10
                     self.kidPosition[0] = self.level.levelX
                     self.kidPosition[1] = self.level.levelY
                 else: 
@@ -120,10 +126,13 @@ class Game():
                             self.level.demon.stepsWalked = 0
 
                 self.level.demon.update(SCREEN, self.demonPosition)
-                pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
+                #pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
             
             self.kid.update(SCREEN, self.kidPosition)
             
+            self.time = int((pygame.time.get_ticks()))
             #See Hitbox
-            pygame.draw.rect(SCREEN,(255,255,255),self.kid.hitbox, 1)
+            #pygame.draw.rect(SCREEN,(255,255,255),self.kid.hitbox, 1)
             pygame.display.update()
+        points = int(self.kid.points - self.time/1000)
+        self.menu.game_over(SCREEN, points)

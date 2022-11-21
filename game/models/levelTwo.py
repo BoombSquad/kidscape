@@ -1,4 +1,5 @@
 import pygame
+from models.levelThree import LevelThree
 from models.demon import Demon
 from models.key import Key
 from models.obstacle import Obstacle
@@ -14,9 +15,9 @@ class LevelTwo():
         self.remainingKeys = []
         self.openedDoor = False
         self.door = None
-        self.demon = Demon((1000, 300))
 
     def createObstacles(self, screen):
+        self.demon = Demon((1000, 300), (400,400))
         self.background = pygame.image.load("assets/images/backgrounds/level-two-with-obstacles.jpg")
 
         self.obstacles.append(Obstacle((628,0), pygame.image.load("assets/images/obstacles/vertical-wall.png")))
@@ -76,4 +77,4 @@ class LevelTwo():
         self.openedDoor = True
 
     def getNextLevel(self):
-        return 
+        return LevelThree()
