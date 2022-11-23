@@ -8,7 +8,7 @@ class LevelThree():
         self.levelX = 80
         self.levelY = 400
         self.fase = 2
-        self.speed = 0.2
+        self.speed = 1
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False
@@ -16,7 +16,7 @@ class LevelThree():
         self.demon = None
 
     def createObstacles(self, screen):
-        self.demon = Demon((600, 300), (100,100))
+        self.demon = Demon((600, 300), (1000,1000))
         self.background = pygame.image.load("assets/images/backgrounds/level-three-with-obstacles.jpg")
 
         self.obstacles.append(Obstacle((137,0), pygame.image.load("assets/images/obstacles/vertical-wall.png")))

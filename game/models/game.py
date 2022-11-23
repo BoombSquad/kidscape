@@ -13,6 +13,7 @@ clock = pygame.time.Clock()
 class Game():
 
     def __init__(self, menu, level=LevelThree()):
+        self.playerName = 'Teste'
         self.menu = menu
         self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
@@ -26,13 +27,12 @@ class Game():
 
     def main(self):
         while self.kid.isAlive():
-        # while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
                     nextLevel = self.level.getNextLevel()
                     if nextLevel == 0:
-                        self.menu.victory(SCREEN, self.kid.points)
+                        self.menu.victory(SCREEN, self.kid.points, self.playerName)
                     self.kid.points += 20
                     Game(self.menu, nextLevel).main()
             
@@ -83,7 +83,7 @@ class Game():
 
                 if self.level.demon.isChasing(self):
 
-                    self.level.demon.acc = 0.1
+                    self.level.demon.acc = 3
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
                     if self.kidPosition[0] < self.demonPosition[0]:
@@ -135,4 +135,9 @@ class Game():
             #pygame.draw.rect(SCREEN,(255,255,255),self.kid.hitbox, 1)
             pygame.display.update()
         points = int(self.kid.points - self.time/1000)
-        self.menu.game_over(SCREEN, points)
+        f = open("leaderboard.txt", "a")
+        print(f)
+        f.write(self.playerName+"-"+str(points))
+        f.close()
+        self.menu.victory(SCREEN, self.kid.points, self.playerName)
+        # self.menu.game_over(SCREEN, points)
