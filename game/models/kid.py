@@ -82,10 +82,10 @@ class Kid():
     def checkCollision(self, level):
         for obstacle in level.obstacles:
             if self.hitbox.colliderect(obstacle.hitbox):
-                if type(obstacle) == Key:
-                    self.points += 50
+                if type(obstacle) == Key and level.remainingKeys.__len__() > 0:
                     level.obstacles.remove(obstacle)
                     level.remainingKeys.remove(obstacle)
+                    self.points += 2500
                 return True
             if level.fase != 1 and self.hitbox.colliderect(level.demon.hitbox):
                 return True

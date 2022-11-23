@@ -32,7 +32,6 @@ class Demon():
     self.walkDownState = 0
 
     self.hitbox = self.sprite.get_rect(topleft = (self.position_X, self.position_Y))
-    #self.hitbox = pygame.Rect(self.position_X, self.position_Y, 30, 44)
     self.chasingBox = pygame.Rect(self.position_X, self.position_Y, 150, 150)
     self.chasignBoxSize = chaseBox
    
@@ -46,7 +45,6 @@ class Demon():
 
     self.chasingBox = pygame.Rect(self.position_X, self.position_Y, self.chasignBoxSize[0], self.chasignBoxSize[1])
     self.chasingBox.center = self.hitbox.center
-    #pygame.draw.rect(screen, (255,0,0), self.chasingBox, 1)
     
     screen.blit(self.sprite, coordinates)
 
@@ -70,29 +68,13 @@ class Demon():
   def setSpriteDirection(self, direction):
       self.direction = direction
       if direction == "UP":
-    #      if self.walkUpState >= len(self.walkUpSprites):
-    #           self.walkUpState = 0
             self.sprite = self.walkUpSprites[0]
-    #       self.sprite = self.walkUpSprites[int(self.walkUpState)]
-    #       self.walkUpState += self.stateSpeed
       if direction == "DOWN":
-    #       if self.walkDownState >= len(self.walkDownSprites):
-    #           self.walkDownState = 0
             self.sprite = self.walkDownSprites[0]
-    #       self.sprite = self.walkDownSprites[int(self.walkDownState)]
-    #       self.walkDownState += self.stateSpeed
       if direction == "RIGHT":
-    #       if self.walkRightState >= len(self.walkRightSprites):
-    #           self.walkRightState = 0
             self.sprite = self.walkRightSprites[0]
-    #       self.sprite = self.walkRightSprites[int(self.walkRightState)]
-    #       self.walkRightState += self.stateSpeed
       if direction == "LEFT":
-    #       if self.walkLeftState >= len(self.walkLeftSprites):
-    #           self.walkLeftState = 0
             self.sprite = self.walkLeftSprites[0]
-    #       self.sprite = self.walkLeftSprites[int(self.walkLeftState)]
-    #       self.walkLeftState += self.stateSpeed
       if direction == "CHASE":
             self.sprite = self.walkDownSprites[1]
             

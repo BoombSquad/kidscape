@@ -5,36 +5,42 @@ from models.kid import Kid
 from models.levelOne import LevelOne
 from models.levelTwo import LevelTwo
 from models.levelThree import LevelThree
+from pygame import mixer
 
+MAX_TIME = 180000
 SCREEN = pygame.display.set_mode((1280, 720))
 directions = ["RIGHT", "LEFT", "UP", "DOWN"]
 clock = pygame.time.Clock()
 
+mixer.init()
+backgroundSound = pygame.mixer.Sound("../game/assets/sounds/chase.wav")
+backgroundSound.set_volume(0.1)
+
+
 class Game():
 
-    def __init__(self, menu, level=LevelOne()):
-        self.playerName = 'Teste'
+    def __init__(self, menu, level=LevelThree(), kid=Kid((80,130))):
         self.menu = menu
         self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
-        self.kid = Kid(self.kidPosition)
+        self.kid = kid
         self.demonPosition = [0,0]
         self.demonPreviousPos = self.demonPosition
         self.demonDirection = "left"
         self.level = level
         self.level.createObstacles(SCREEN)
-        self.time = 0
 
     def main(self):
+        chaseSoundOn = False
         while self.kid.isAlive():
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
                     nextLevel = self.level.getNextLevel()
                     if nextLevel == 0:
-                        self.menu.victory(SCREEN, self.kid.points)
-                    self.kid.points += 100
-                    Game(self.menu, nextLevel).main()
+                        self.menu.victory(SCREEN, self.kid.points + (MAX_TIME - pygame.time.get_ticks()))
+                    self.kid.points += 10000
+                    Game(self.menu, nextLevel, self.kid).main()
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -66,10 +72,10 @@ class Game():
                     self.previousPosition[1] = self.kidPosition[1]
                     self.kidPosition[1] += self.level.speed
 
-            if self.kid.checkCollision(self.level):
+            elif self.kid.checkCollision(self.level):
                 if self.kid.isDemonCollision(self.level):
                     self.kid.lives -= 1
-                    self.kid.points -= 10
+                    self.kid.points -= 1000
                     self.kidPosition[0] = self.level.levelX
                     self.kidPosition[1] = self.level.levelY
                 else: 
@@ -81,8 +87,10 @@ class Game():
             if self.level.fase == 2:
 
                 if self.level.demon.isChasing(self):
-
-                    self.level.demon.acc = 0.08
+                    if chaseSoundOn == False:
+                        chaseSoundOn = True
+                        backgroundSound.play(0)
+                    self.level.demon.acc = 0.1
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
                     if self.kidPosition[0] < self.demonPosition[0]:
@@ -92,6 +100,7 @@ class Game():
                     if self.kidPosition[1] < self.demonPosition[1]:
                         self.demonPosition[1] -= self.level.demon.acc
                 else:
+                    chaseSoundOn = False
                     self.level.demon.acc = 3
                     self.demonPosition[0] = self.level.demon.position_X
                     self.demonPosition[1] = self.level.demon.position_Y
@@ -125,13 +134,9 @@ class Game():
                             self.level.demon.stepsWalked = 0
 
                 self.level.demon.update(SCREEN, self.demonPosition)
-                #pygame.draw.rect(SCREEN,(255,255,255), self.level.demon.hitbox, 1)
             
             self.kid.update(SCREEN, self.kidPosition)
             
-            self.time = int((pygame.time.get_ticks()))
-            #See Hitbox
-            #pygame.draw.rect(SCREEN,(255,255,255),self.kid.hitbox, 1)
             pygame.display.update()
-        points = int(self.kid.points - self.time/1000)
-        self.menu.game_over(SCREEN, points)
+
+        self.menu.game_over(SCREEN, self.kid.points)

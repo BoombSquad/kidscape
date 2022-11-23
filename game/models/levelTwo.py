@@ -19,32 +19,25 @@ class LevelTwo():
     def createObstacles(self, screen):
         self.demon = Demon((1000, 300), (400,400))
         self.background = pygame.image.load("assets/images/backgrounds/level-two-with-obstacles.jpg")
-
         self.obstacles.append(Obstacle((628,0), pygame.image.load("assets/images/obstacles/vertical-wall.png")))
         self.obstacles.append(Obstacle((960,0), pygame.image.load("assets/images/obstacles/vertical-wall.png")))
         self.obstacles.append(Obstacle((347,403), pygame.image.load("assets/images/obstacles/vertical-wall.png")))
         self.obstacles.append(Obstacle((960,403), pygame.image.load("assets/images/obstacles/vertical-wall.png")))
-        
         self.obstacles.append(Obstacle((628,276), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
         self.obstacles.append(Obstacle((856,276), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
         self.obstacles.append(Obstacle((362,403), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
         self.obstacles.append(Obstacle((482,403), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
         self.obstacles.append(Obstacle((721,403), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
         self.obstacles.append(Obstacle((841,403), pygame.image.load("assets/images/obstacles/horizontal-wall.png")))
-
         self.obstacles.append(Obstacle((648,11), pygame.image.load("assets/images/obstacles/plant.png")))
         self.obstacles.append(Obstacle((913,11), pygame.image.load("assets/images/obstacles/plant.png")))
         self.obstacles.append(Obstacle((367,423), pygame.image.load("assets/images/obstacles/plant.png")))
         self.obstacles.append(Obstacle((913,423), pygame.image.load("assets/images/obstacles/plant.png")))
-
         self.obstacles.append(Obstacle((715,17), pygame.image.load("assets/images/obstacles/fireplace.png")))
-
         self.obstacles.append(Obstacle((750,162), pygame.image.load("assets/images/obstacles/table.png")))
-
         self.obstacles.append(Obstacle((648,238), pygame.image.load("assets/images/obstacles/skull.png")))
         self.obstacles.append(Obstacle((371,541), pygame.image.load("assets/images/obstacles/skull.png")))
         self.obstacles.append(Obstacle((964,632), pygame.image.load("assets/images/obstacles/skull.png")))
-
         self.obstacles.append(Obstacle((1264,84), pygame.image.load("assets/images/obstacles/door-closed.png")))
 
         key1 = Key((373, 631))
