@@ -5,10 +5,10 @@ from models.obstacle import Obstacle
 
 class LevelThree():
     def __init__(self):
-        self.levelX = 80
-        self.levelY = 400
+        self.levelX = 20
+        self.levelY = 120
         self.fase = 2
-        self.speed = 1
+        self.speed = 0.2
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False

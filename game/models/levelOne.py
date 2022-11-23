@@ -9,7 +9,7 @@ class LevelOne():
         self.levelX = 80  
         self.levelY= 130
         self.background = None
-        self.speed = 1
+        self.speed = 0.2
         self.obstacles = []
         self.remainingKeys = []
         self.openedDoor = False

@@ -58,6 +58,15 @@ class Menu():
 
     def game_over(self, game_surface, points):
         game_surface.blit(pause_background, (0,0))
+
+        base_font = pygame.font.Font(self.get_font(32), 32)
+        user_text = ''
+        input_rect = pygame.Rect(530, 240, 250, 60)
+        color_active = pygame.Color('#d7fcd4')
+        color_passive = pygame.Color('#d7fcd4')
+        color = color_passive
+        active = False
+
         while True:                   
             
             PAUSE_MOUSE_POS = pygame.mouse.get_pos()
@@ -82,21 +91,47 @@ class Menu():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if MENU_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        f = open("leaderboard.txt", "a")
+                        print(f)
+                        f.write(user_text+"-"+ str(points)+';'+'\n')
+                        f.close()
                         self.main_menu()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if input_rect.collidepoint(PAUSE_MOUSE_POS):
+                        active = True
+                    else:
+                        active = False
+                if event.type == pygame.KEYDOWN:
+
+                    # Check for backspace
+                    if event.key == pygame.K_BACKSPACE:
+
+                        # get text input from 0 to -1 i.e. end.
+                        user_text = user_text[:-1]
+
+                    # Unicode standard is used for string
+                    # formation
+                    else:
+                        user_text += event.unicode
+            if active:
+                color = color_active
+            else:
+                color = color_passive
             
+            pygame.draw.rect(menu_surface, color, input_rect)
+            text_surface = base_font.render(user_text, True, (255, 255, 255))
+            menu_surface.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+            input_rect.w = max(100, text_surface.get_width()+10)
             pygame.display.update()
 
-    def victory(self, game_surface, points, playerName):
-        f = open("leaderboard.txt", "a")
-        print(f)
-        f.write(playerName+"-"+ str(points))
-        f.close()
+    def victory(self, game_surface, points):
+        
         game_surface.fill((0,0,0))
 
         base_font = pygame.font.Font(None, 32)
         user_text = ''
         input_rect = pygame.Rect(530, 240, 250, 60)
-        color_active = pygame.Color('green')
+        color_active = pygame.Color('#d7fcd4')
         color_passive = pygame.Color('white')
         color = color_passive
         active = False
@@ -125,6 +160,10 @@ class Menu():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if MENU_BUTTON.checkForInput(PAUSE_MOUSE_POS):
+                        f = open("leaderboard.txt", "a")
+                        print(f)
+                        f.write(user_text+"-"+ str(points)+';'+'\n')
+                        f.close()
                         self.main_menu()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if input_rect.collidepoint(PAUSE_MOUSE_POS):
@@ -147,7 +186,7 @@ class Menu():
                 color = color_active
             else:
                 color = color_passive
-
+            
             pygame.draw.rect(menu_surface, color, input_rect)
             text_surface = base_font.render(user_text, True, (255, 255, 255))
             menu_surface.blit(text_surface, (input_rect.x+5, input_rect.y+5))

@@ -6,8 +6,8 @@ from models.obstacle import Obstacle
 
 class LevelTwo():
     def __init__(self):
-        self.levelX = 80
-        self.levelY = 400
+        self.levelX = 20
+        self.levelY = 480
         self.fase = 2
         self.background = pygame.image.load("assets/images/backgrounds/level-two-background.jpg")
         self.speed = 0.2
