@@ -12,7 +12,8 @@ clock = pygame.time.Clock()
 
 class Game():
 
-    def __init__(self, menu, level=LevelThree()):
+    def __init__(self, menu, level=LevelOne()):
+        self.playerName = 'Teste'
         self.menu = menu
         self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
@@ -26,14 +27,13 @@ class Game():
 
     def main(self):
         while self.kid.isAlive():
-        # while True:
             if len(self.level.remainingKeys) == 0:
                 self.level.openDoor()
                 if self.level.checkDoorCollision(self.kidPosition):
                     nextLevel = self.level.getNextLevel()
                     if nextLevel == 0:
                         self.menu.victory(SCREEN, self.kid.points)
-                    self.kid.points += 20
+                    self.kid.points += 100
                     Game(self.menu, nextLevel).main()
             
             for event in pygame.event.get():
@@ -43,7 +43,6 @@ class Game():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.menu.pause(SCREEN)
-
 
             if not self.kid.checkCollision(self.level):
                 keys_pressed = pygame.key.get_pressed()
@@ -83,7 +82,7 @@ class Game():
 
                 if self.level.demon.isChasing(self):
 
-                    self.level.demon.acc = 0.1
+                    self.level.demon.acc = 0.08
                     if self.kidPosition[0] > self.demonPosition[0]:
                         self.demonPosition[0] += self.level.demon.acc
                     if self.kidPosition[0] < self.demonPosition[0]:
