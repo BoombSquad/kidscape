@@ -63,10 +63,10 @@ class LevelThree():
         self.obstacles.append(key3)
         self.obstacles.append(key4)
         
-        # self.remainingKeys.append(key1)
-        # self.remainingKeys.append(key2)
-        # self.remainingKeys.append(key3)
-        # self.remainingKeys.append(key4)
+        self.remainingKeys.append(key1)
+        self.remainingKeys.append(key2)
+        self.remainingKeys.append(key3)
+        self.remainingKeys.append(key4)
 
         for obstacle in self.obstacles:
             screen.blit(obstacle.sprite, obstacle.hitbox)

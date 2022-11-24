@@ -19,7 +19,7 @@ backgroundSound.set_volume(0.1)
 
 class Game():
 
-    def __init__(self, menu, level=LevelThree(), kid=Kid((80,130))):
+    def __init__(self, menu, level=LevelOne(), kid=Kid((80,130))):
         self.menu = menu
         self.kidPosition =[level.levelX,  level.levelY]
         self.previousPosition = [80,130]
